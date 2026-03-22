@@ -158,6 +158,7 @@ type HushboxFileProps = {
 	hushType: string;
 	onRename: (_id: string, newName: string, newType: string) => void;
 	onDelete: (_id: string) => void;
+	onOpen: (_id: string) => void;
 };
 
 export function HushboxFile({
@@ -166,16 +167,21 @@ export function HushboxFile({
 	hushType,
 	onRename,
 	onDelete,
+	onOpen,
 }: HushboxFileProps) {
 	const [renameValue, setRenameValue] = useState(hushName);
 	const [renameType, setRenameType] = useState(hushType);
 	// const [typeValue, setTypeValue] = useState(hushType);
 
 	return (
-		<div className="relative h-44 border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 flex flex-col items-center justify-between backdrop-blur-md bg-white/10 dark:bg-neutral-900">
+		<div
+			className="relative h-44 border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 flex flex-col items-center justify-between backdrop-blur-md bg-white/10 dark:bg-neutral-900 cursor-pointer hover:scale-[1.02] transition-transform"
+			onClick={() => onOpen(_id)}
+		>
 			<GlowingEffect
 				spread={40}
-				glow
+				glow={true}
+				disabled={false}
 				proximity={64}
 				inactiveZone={0.01}
 			/>
@@ -194,7 +200,10 @@ export function HushboxFile({
 			{/* Menu */}
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button className="absolute top-3 right-3 rounded-md p-1 text-neutral-500 hover:text-neutral-300 hover:bg-white/5 focus:outline-none">
+					<button
+						className="absolute top-3 right-3 rounded-md p-1 text-neutral-500 hover:text-neutral-300 hover:bg-white/5 focus:outline-none"
+						onClick={(e) => e.stopPropagation()}
+					>
 						<EllipsisVertical size={20} />
 					</button>
 				</DropdownMenuTrigger>
@@ -209,7 +218,8 @@ export function HushboxFile({
 						<DialogTrigger asChild>
 							<DropdownMenuItem
 								onSelect={(e) => e.preventDefault()}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setRenameValue(hushName);
 									setRenameType(hushType);
 								}}
@@ -283,7 +293,10 @@ export function HushboxFile({
 
 					{/* Delete */}
 					<DropdownMenuItem
-						onClick={() => onDelete(_id)}
+						onClick={(e) => {
+							e.stopPropagation();
+							onDelete(_id);
+						}}
 						className="text-red-500 flex items-center gap-2 cursor-pointer hover:bg-red-500"
 					>
 						<Trash className="h-4 w-4 group-hover:text-neutral-200" />
