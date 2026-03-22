@@ -84,14 +84,6 @@ export default function DrivePage() {
 		router.push(`/drive/${[...path, id].join("/")}`);
 	};
 
-	const goBack = () => {
-		router.back();
-	};
-
-	const goRoot = () => {
-		router.push("/drive");
-	};
-
 	/* ---------------------------- CREATE ---------------------------- */
 	const createHush = async (name: string, type: string) => {
 		try {
@@ -166,41 +158,6 @@ export default function DrivePage() {
 	/* ---------------------------- RENDER ---------------------------- */
 	return (
 		<main>
-			{/* Breadcrumbs */}
-			{/*<div className="px-6 pt-4 flex gap-2 items-center text-sm">
-				<button onClick={goRoot} className="hover:underline">
-					Root
-				</button>
-
-				{path.map((id, index) => {
-					const link = `/drive/${path.slice(0, index + 1).join("/")}`;
-
-					return (
-						<span key={id} className="flex items-center gap-2">
-							/{" "}
-							<button
-								onClick={() => router.push(link)}
-								className="hover:underline"
-							>
-								{id}
-							</button>
-						</span>
-					);
-				})}
-			</div>*/}
-
-			{/* Back Button */}
-			{/*{path.length > 0 && (
-				<div className="px-6 pt-2">
-					<button
-						onClick={goBack}
-						className="text-sm hover:underline"
-					>
-						← Back
-					</button>
-				</div>
-			)}*/}
-
 			{/* Search + Create */}
 			<SearchAndFilter
 				onCreateHush={createHush}
